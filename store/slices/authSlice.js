@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const loadState = () => {
+  if (typeof window === "undefined") {
+    return { user: null, token: null, role: null };
+  }
   try {
     const serializedState = localStorage.getItem("authState");
     if (serializedState === null) {
@@ -18,17 +21,16 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials: (
-      state,
-      { payload: { user, token } } // The payload only has user and token
-    ) => {
+    setCredentials: (state, { payload: { user, token } }) => {
       state.user = user;
       state.token = token;
       state.role = user.role;
       try {
         const serializedState = JSON.stringify(state);
         localStorage.setItem("authState", serializedState);
-      } catch (err) {}
+      } catch (err) {
+        //write errors
+      }
     },
     logOut: (state) => {
       state.user = null;
@@ -36,7 +38,9 @@ const authSlice = createSlice({
       state.role = null;
       try {
         localStorage.removeItem("authState");
-      } catch (err) {}
+      } catch (err) {
+        //write errors
+      }
     },
   },
 });

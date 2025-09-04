@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Button from "../ui/Button";
 
 const PlaceholderIcon = () => (
@@ -26,12 +27,14 @@ export default function DoctorCard({ doctor, onBookAppointment }) {
       transition={{ duration: 0.4, ease: "easeInOut" }}
       className="flex flex-col overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
     >
-      <div className="h-48 w-full bg-gray-100 dark:bg-gray-700">
+      <div className="relative h-48 w-full bg-gray-100 dark:bg-gray-700">
         {doctor.photo_url ? (
-          <img
+          <Image
             src={doctor.photo_url}
             alt={`Photo of ${doctor.name}`}
-            className="h-full w-full object-cover"
+            fill={true}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
           />
         ) : (
           <PlaceholderIcon />
@@ -41,11 +44,13 @@ export default function DoctorCard({ doctor, onBookAppointment }) {
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
           {doctor.name}
         </h3>
-        <p className="text-sm text-blue-600 dark:text-blue-400">
+        <p className="text-sm text-blue-600 dark:text-sky-400">
           {doctor.specialization}
         </p>
         <div className="mt-auto pt-4">
-          <Button onClick={onBookAppointment}>Book Appointment</Button>
+          <Button onClick={onBookAppointment} className="w-full">
+            Book Appointment
+          </Button>
         </div>
       </div>
     </motion.div>

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link"; // Import the Link component
+import Link from "next/link";
 import { useLoginForm } from "@/hooks/useLoginForm";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
@@ -13,8 +13,8 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
-      <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
+    <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md dark:bg-slate-800">
+      <h2 className="mb-6 text-center text-2xl font-bold text-gray-800 dark:text-white">
         Welcome Back
       </h2>
 
@@ -46,13 +46,13 @@ export default function LoginForm() {
         <div className="mb-4">
           <label
             htmlFor="role"
-            className="mb-1 block text-sm font-medium text-gray-700"
+            className="mb-1 block text-sm font-medium text-gray-700 dark:text-slate-300"
           >
             Login as
           </label>
           <select
             id="role"
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-700 dark:border-slate-600 sm:text-sm"
             disabled={isPending}
             {...register("role")}
           >
@@ -64,16 +64,21 @@ export default function LoginForm() {
           )}
         </div>
 
-        <Button type="submit" className="mt-4" disabled={isPending}>
-          {isPending ? "Logging in..." : "Login"}
+        <Button
+          type="submit"
+          className="mt-4 w-full"
+          isLoading={isPending}
+          variant="default"
+        >
+          Login
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-gray-600">
-        Don't have an account?{" "}
+      <p className="mt-6 text-center text-sm text-gray-600 dark:text-slate-400">
+        Don&apos;t have an account?{" "}
         <Link
           href="/register"
-          className="font-medium text-blue-600 hover:underline"
+          className="font-medium text-blue-600 hover:underline dark:text-sky-400"
         >
           Register
         </Link>
