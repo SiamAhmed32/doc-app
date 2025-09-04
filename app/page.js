@@ -1,101 +1,152 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { motion } from "framer-motion";
+
+const Button = ({ children, className = "", size = "md", ...props }) => {
+  const sizeClasses = {
+    md: "px-6 py-2.5 text-sm",
+    lg: "px-8 py-3.5 text-base",
+  };
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <button
+      className={`inline-flex items-center justify-center rounded-md font-semibold text-white bg-blue-600 shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-gray-900 ${sizeClasses[size]} ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
+const AnimatedDoctorIcon = () => (
+  <motion.div
+    className="relative w-full max-w-lg mx-auto"
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+  >
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-blue-200 rounded-full opacity-30 dark:bg-blue-900/40 blur-2xl"></div>
+    <motion.div
+      animate={{ y: [-10, 10, -10] }}
+      transition={{
+        duration: 8,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+      className="absolute top-10 left-20 w-16 h-16 bg-teal-200/80 dark:bg-teal-500/50 rounded-full shadow-lg"
+    ></motion.div>
+    <motion.div
+      animate={{ x: [5, -5, 5] }}
+      transition={{
+        duration: 10,
+        repeat: Infinity,
+        ease: "easeInOut",
+        delay: 1,
+      }}
+      className="absolute bottom-16 right-16 w-24 h-24 bg-blue-300/80 dark:bg-blue-600/50 rounded-full shadow-xl"
+    ></motion.div>
+    <motion.div
+      animate={{ scale: [1, 1.1, 1] }}
+      transition={{
+        duration: 12,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+      className="absolute bottom-24 left-10 w-12 h-12 bg-indigo-200/80 dark:bg-indigo-500/50 rounded-full shadow-md"
+    ></motion.div>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="relative z-10 w-full h-auto text-gray-800 dark:text-gray-100"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M14.5 3.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
+      <path d="M12 8v4" />
+      <path d="M12 12h.01" />
+      <path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9c2.39 0 4.58.91 6.18 2.38" />
+      <path d="m14.5 15.5 1 1" />
+      <path d="m9.5 15.5-1 1" />
+    </svg>
+  </motion.div>
+);
+
+export default function HomePage() {
+  return (
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gray-50 dark:bg-gray-900">
+      <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50 to-teal-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-900/20"></div>
+
+      <motion.div
+        className="relative z-10 grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-4 text-center md:grid-cols-2 md:text-left"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <div className="order-2 md:order-1">
+          <motion.h1
+            variants={itemVariants}
+            className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl md:text-6xl"
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Your Health,
+            <span className="block text-blue-600 dark:text-blue-400">
+              Simplified.
+            </span>
+          </motion.h1>
+          <motion.p
+            variants={itemVariants}
+            className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300"
           >
-            Read our docs
-          </a>
+            Easily book and manage your medical appointments with top
+            specialists. Seamless, secure, and built for you.
+          </motion.p>
+          <motion.div
+            variants={itemVariants}
+            className="mt-10 flex flex-col items-center justify-center gap-6 sm:flex-row md:justify-start"
+          >
+            <a href="/login">
+              <Button size="lg" className="w-full sm:w-auto">
+                Get Started
+              </Button>
+            </a>
+            <a
+              href="/register"
+              className="text-sm font-semibold leading-6 text-gray-900 transition-colors hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
+            >
+              Create an account <span aria-hidden="true">→</span>
+            </a>
+          </motion.div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        <div className="order-1 md:order-2">
+          <AnimatedDoctorIcon />
+        </div>
+      </motion.div>
+    </section>
   );
 }
+

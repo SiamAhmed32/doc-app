@@ -1,3 +1,6 @@
+@import "react-toastify/dist/ReactToastify.css";
+@import "react-datepicker/dist/react-datepicker.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +8,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  display: block;
+  width: 100%;
 }
 
 @media (prefers-color-scheme: dark) {
