@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { store } from "../store";
 import AxiosInterceptor from "./auth/AxiosInterceptor";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 const queryClient = new QueryClient();
 
@@ -13,8 +14,10 @@ export default function Providers({ children }) {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <AxiosInterceptor>{children}</AxiosInterceptor>
-        <ToastContainer />
+        <ThemeProvider>
+          <AxiosInterceptor>{children}</AxiosInterceptor>
+          <ToastContainer theme="colored" />
+        </ThemeProvider>
       </QueryClientProvider>
     </Provider>
   );

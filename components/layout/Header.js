@@ -5,7 +5,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
-import { logOut } from "../../store/slices/authSlice";
+import { logOut } from "@/store/slices/authSlice";
+import ThemeToggleButton from "../ui/ThemeToggleButton";
 
 const NavLink = ({ href, children }) => {
   const pathname = usePathname();
@@ -142,12 +143,13 @@ export default function Header() {
           href="/"
           className="text-xl font-bold text-slate-800 dark:text-white"
         >
-          Health<span className="text-sky-500">Care</span>
+          Doctor Appointment <span className="text-sky-500"> System</span>
         </Link>
 
         <div className="hidden items-center gap-x-2 md:flex">{navLinks}</div>
 
         <div className="flex items-center gap-x-4">
+          <ThemeToggleButton />
           {user ? (
             <div className="relative" ref={profileMenuRef}>
               <button

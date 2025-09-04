@@ -7,6 +7,7 @@ import { useDoctors } from "../../../hooks/useDoctors";
 import { useDebounce } from "../../../hooks/useDebounce";
 import apiClient from "../../../lib/axios";
 import DoctorCard from "../../../components/doctors/DoctorCard";
+import DoctorCardSkeleton from "../../../components/doctors/DoctorCardSkeleton";
 import Modal from "../../../components/ui/Modal";
 import AppointmentBookingForm from "../../../components/doctors/AppointmentBookingForm";
 import Pagination from "../../../components/ui/Pagination";
@@ -14,7 +15,6 @@ import SearchIcon from "../../../components/ui/SearchIcon";
 
 const fetchSpecializations = async () => {
   const response = await apiClient.get("/specializations");
-
   return response.data.data;
 };
 
@@ -36,7 +36,7 @@ export default function PatientDashboard() {
     setCurrentPage(1);
   };
 
-  const { data, error, isFetching } = useDoctors({
+  const { data, error, isLoading, isFetching } = useDoctors({
     searchTerm: debouncedSearchTerm,
     specialization: selectedSpecialization,
     page: currentPage,
@@ -53,6 +53,25 @@ export default function PatientDashboard() {
     });
 
   const handleCloseModal = () => setSelectedDoctor(null);
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto p-4 dark:bg-gray-900">
+        <h1 className="mb-6 text-3xl font-bold dark:text-white">
+          Find Your Doctor
+        </h1>
+        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="h-10 w-full animate-pulse rounded-md bg-slate-200 dark:bg-slate-700"></div>
+          <div className="h-10 w-full animate-pulse rounded-md bg-slate-200 dark:bg-slate-700"></div>
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <DoctorCardSkeleton key={index} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto p-4 dark:bg-gray-900">
@@ -89,42 +108,48 @@ export default function PatientDashboard() {
         </select>
       </div>
 
-      {isFetching && <div className="p-4 text-center">Loading doctors...</div>}
-
-      {!isFetching && error && (
-        <div className="p-4 text-center text-red-500">
-          Error: {error.message}
-        </div>
-      )}
-
-      {!isFetching && !error && doctors.length > 0 && (
-        <>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {doctors.map((doctor) => (
-              <DoctorCard
-                key={doctor.id}
-                doctor={doctor}
-                onBookAppointment={() => setSelectedDoctor(doctor)}
-              />
-            ))}
+      <div className="relative">
+        {isFetching && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center rounded-lg bg-white/60 backdrop-blur-sm dark:bg-gray-900/60">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
           </div>
-          <Pagination
-            currentPage={currentPage}
-            totalItems={totalRecords}
-            itemsPerPage={itemsPerPage}
-            onPageChange={(page) => setCurrentPage(page)}
-          />
-        </>
-      )}
+        )}
 
-      {!isFetching && !error && doctors.length === 0 && (
-        <div className="py-12 text-center text-gray-500">
-          <p>
-            No doctors found matching your criteria. Please try a different
-            search.
-          </p>
-        </div>
-      )}
+        {!isFetching && error && (
+          <div className="p-4 text-center text-red-500">
+            Error: {error.message}
+          </div>
+        )}
+
+        {!isFetching && !error && doctors.length > 0 && (
+          <>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {doctors.map((doctor) => (
+                <DoctorCard
+                  key={doctor.id}
+                  doctor={doctor}
+                  onBookAppointment={() => setSelectedDoctor(doctor)}
+                />
+              ))}
+            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalItems={totalRecords}
+              itemsPerPage={itemsPerPage}
+              onPageChange={(page) => setCurrentPage(page)}
+            />
+          </>
+        )}
+
+        {!isFetching && !error && doctors.length === 0 && (
+          <div className="py-12 text-center text-gray-500">
+            <p>
+              No doctors found matching your criteria. Please try a different
+              search.
+            </p>
+          </div>
+        )}
+      </div>
 
       <Modal
         isOpen={!!selectedDoctor}

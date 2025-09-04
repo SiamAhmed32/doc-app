@@ -18,5 +18,5 @@ const Input = forwardRef(({ type = "text", label, ...props }, ref) => {
   );
 });
 
-Input.displayName = "Input"; // Recommended for debugging
+Input.displayName = "Input"; 
 export default Input;
