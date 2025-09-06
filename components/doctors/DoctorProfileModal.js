@@ -1,5 +1,3 @@
-// File: components/doctors/DoctorProfileModal.jsx (New File)
-
 "use client";
 
 import Image from "next/image";

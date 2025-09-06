@@ -62,7 +62,6 @@ export default function TestimonialsSection() {
           </p>
         </motion.div>
 
-        {/* ===== THE FIX IS ON THE LINE BELOW ===== */}
         <div className="mt-16 min-h-[480px] overflow-hidden">
           <Swiper
             effect={"coverflow"}
@@ -85,8 +84,9 @@ export default function TestimonialsSection() {
             {testimonials.map((testimonial, index) => (
               <SwiperSlide key={index} className="!w-auto max-w-lg">
                 <div className="flex h-full flex-col rounded-lg bg-white p-8 shadow-lg dark:bg-slate-800">
+                  {/* THIS IS THE FIX: Using proper quotes around the text */}
                   <p className="flex-grow text-slate-600 dark:text-slate-300">
-                    "{testimonial.quote}"
+                    &ldquo;{testimonial.quote}&rdquo;
                   </p>
                   <div className="mt-6 flex items-center">
                     <Image

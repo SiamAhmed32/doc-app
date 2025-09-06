@@ -1,7 +1,7 @@
 Doctor Appointment Management System
 A modern, responsive, and feature-rich frontend for a doctor-patient appointment management platform. This project is built with a professional-grade technology stack and is designed for scalability, performance, and an exceptional user experience.
 
-Live Application URL: digitalhealthcare.netlify.app
+Live Application URL: digitaldocappointment.netlify.app
 
 Table of Contents
 Project Overview

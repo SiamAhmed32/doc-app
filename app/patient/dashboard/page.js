@@ -1,21 +1,18 @@
-// File: app/patient/dashboard/page.jsx (Corrected and Final)
-
 "use client";
 
 import { useState } from "react";
-import { useDoctors } from "@/hooks/useDoctors"; // Assuming this hook is correct
+import { useDoctors } from "@/hooks/useDoctors";
 import { useDebounce } from "@/hooks/useDebounce";
 import DoctorCard from "@/components/doctors/DoctorCard";
 import DoctorCardSkeleton from "@/components/doctors/DoctorCardSkeleton";
 import AppointmentBookingForm from "@/components/doctors/AppointmentBookingForm";
-import DoctorProfileModal from "@/components/doctors/DoctorProfileModal"; // Import the new Profile Modal
+import DoctorProfileModal from "@/components/doctors/DoctorProfileModal";
 import Pagination from "@/components/ui/Pagination";
 import SearchIcon from "@/components/ui/SearchIcon";
 import Modal from "@/components/ui/Modal";
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "@/lib/axios";
 
-// This should be in a separate API file, but placing here for simplicity
 const fetchSpecializations = async () => {
   const response = await apiClient.get("/specializations");
   return response.data.data;
@@ -25,7 +22,7 @@ export default function PatientDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSpecialization, setSelectedSpecialization] = useState("");
   const [doctorForBooking, setDoctorForBooking] = useState(null);
-  const [doctorForProfile, setDoctorForProfile] = useState(null); // New state for the profile modal
+  const [doctorForProfile, setDoctorForProfile] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -63,7 +60,6 @@ export default function PatientDashboard() {
           Find Your Doctor
         </h1>
         <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Search and Filter Inputs */}
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               <SearchIcon className="h-5 w-5 text-gray-400" />
@@ -91,7 +87,6 @@ export default function PatientDashboard() {
           </select>
         </div>
 
-        {/* Doctor Grid */}
         <div className="relative">
           {isLoading ? (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -111,7 +106,7 @@ export default function PatientDashboard() {
                     key={doctor.id}
                     doctor={doctor}
                     onBookAppointment={setDoctorForBooking}
-                    onViewProfile={setDoctorForProfile} // Pass the new function
+                    onViewProfile={setDoctorForProfile}
                     fallbackType="initials"
                   />
                 ))}
@@ -134,7 +129,6 @@ export default function PatientDashboard() {
         </div>
       </main>
 
-      {/* Booking Modal */}
       <Modal
         isOpen={!!doctorForBooking}
         onClose={() => setDoctorForBooking(null)}
@@ -148,7 +142,6 @@ export default function PatientDashboard() {
         )}
       </Modal>
 
-      {/* NEW Profile Modal */}
       <DoctorProfileModal
         doctor={doctorForProfile}
         onClose={() => setDoctorForProfile(null)}

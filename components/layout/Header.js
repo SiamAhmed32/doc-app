@@ -137,7 +137,6 @@ export default function Header() {
     ? "text-white"
     : "text-slate-800 dark:text-slate-200";
 
-  // THIS LINE IS UPDATED
   const linkColor = isTransparent
     ? "text-slate-200 hover:text-white"
     : "text-slate-700 hover:text-sky-500 dark:text-slate-300 dark:hover:text-sky-400";

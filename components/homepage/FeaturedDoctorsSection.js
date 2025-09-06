@@ -1,4 +1,3 @@
-// File: components/homepage/FeaturedDoctorsSection.jsx (Corrected and Final)
 
 "use client";
 
@@ -12,7 +11,7 @@ import Link from "next/link";
 
 import { fetchDoctors } from "@/lib/api/doctors";
 import DoctorCard from "../doctors/DoctorCard";
-import DoctorProfileModal from "../doctors/DoctorProfileModal"; // Import Profile Modal
+import DoctorProfileModal from "../doctors/DoctorProfileModal";
 import Button from "../ui/Button";
 import Modal from "../ui/Modal";
 import AppointmentBookingForm from "../doctors/AppointmentBookingForm";
@@ -22,7 +21,7 @@ import "swiper/css/pagination";
 
 export default function FeaturedDoctorsSection() {
   const [doctorForBooking, setDoctorForBooking] = useState(null);
-  const [doctorForProfile, setDoctorForProfile] = useState(null); // 1. Add state for the profile modal
+  const [doctorForProfile, setDoctorForProfile] = useState(null);
   const { user } = useSelector((state) => state.auth);
   const router = useRouter();
 

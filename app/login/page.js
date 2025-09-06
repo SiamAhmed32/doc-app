@@ -1,4 +1,3 @@
-
 "use client";
 
 import { motion } from "framer-motion";
@@ -37,7 +36,6 @@ const CheckIcon = (props) => (
     />
   </svg>
 );
-
 
 const BrandingPanel = () => (
   <motion.div
@@ -90,7 +88,6 @@ export default function LoginPage() {
             transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
             className="w-full"
           >
-            
             <LoginForm />
           </motion.div>
         </div>

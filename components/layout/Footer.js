@@ -35,7 +35,6 @@ export default function Footer() {
             <p className="mt-4 text-slate-500 dark:text-slate-400">
               Your trusted partner in managing healthcare appointments.
             </p>
-            {/* Social Icons can be added here */}
           </div>
           <div className="text-sm">
             <h3 className="font-semibold text-slate-900 dark:text-white">

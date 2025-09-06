@@ -16,7 +16,7 @@ const PlaceholderInitials = ({ name }) => (
   </div>
 );
 
-// The card now takes an `onViewProfile` function as a prop
+
 export default function DoctorCard({
   doctor,
   onBookAppointment,

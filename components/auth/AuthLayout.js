@@ -23,9 +23,7 @@ const AuthGraphic = () => (
       </defs>
       <rect width="800" height="800" fill="url(#auth-gradient)" />
     </svg>
-    {/* Note: Framer Motion on a Server Component will only render the initial state, without animations.
-        This is acceptable here as the animation is subtle. For complex entry animations,
-        we would wrap the content in a separate client component. */}
+
     <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-white">
       <div className="text-center">
         <h1 className="text-4xl font-bold tracking-tight">

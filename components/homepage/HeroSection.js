@@ -1,14 +1,13 @@
-
-
 "use client";
 
 import { motion } from "framer-motion";
 import Button from "../ui/Button";
-import { useSelector } from "react-redux"; 
-import Link from "next/link"; 
+import { useSelector } from "react-redux";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function HeroSection() {
-  const { user, role } = useSelector((state) => state.auth); // Get user info
+  const { user, role } = useSelector((state) => state.auth);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -28,17 +27,20 @@ export default function HeroSection() {
   };
 
   const getDashboardLink = () => {
-    if (role === 'PATIENT') return '/patient/dashboard';
-    if (role === 'DOCTOR') return '/doctor/dashboard';
-    return '/login'; 
+    if (role === "PATIENT") return "/patient/dashboard";
+    if (role === "DOCTOR") return "/doctor/dashboard";
+    return "/login";
   };
 
   return (
     <section className="relative flex h-screen items-center justify-center overflow-hidden text-white">
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           src="https://images.pexels.com/photos/3992933/pexels-photo-3992933.jpeg"
           alt="A friendly doctor in a modern clinic"
+          fill
+          priority
+          sizes="100vw"
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-transparent"></div>
@@ -67,7 +69,6 @@ export default function HeroSection() {
           variants={itemVariants}
           className="mt-10 flex items-center justify-center gap-6"
         >
-         
           {user ? (
             <Link href={getDashboardLink()}>
               <Button size="lg" variant="default">
