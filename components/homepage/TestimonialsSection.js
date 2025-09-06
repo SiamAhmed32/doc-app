@@ -84,7 +84,6 @@ export default function TestimonialsSection() {
             {testimonials.map((testimonial, index) => (
               <SwiperSlide key={index} className="!w-auto max-w-lg">
                 <div className="flex h-full flex-col rounded-lg bg-white p-8 shadow-lg dark:bg-slate-800">
-                  {/* THIS IS THE FIX: Using proper quotes around the text */}
                   <p className="flex-grow text-slate-600 dark:text-slate-300">
                     &ldquo;{testimonial.quote}&rdquo;
                   </p>
