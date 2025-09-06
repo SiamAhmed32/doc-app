@@ -1,6 +1,6 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import Providers from "./providers";
+import Providers from "../components/Providers";
 import "./globals.css";
 
 export const metadata = {
