@@ -3,53 +3,76 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Button from "../ui/Button";
+import { getDoctorImage } from "@/lib/utils";
 
-const PlaceholderIcon = () => (
-  <svg
-    className="h-full w-full text-gray-300 dark:text-gray-600"
-    fill="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path d="M24 20.993V24H0v-2.993A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-  </svg>
-);
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
-export default function DoctorCard({ doctor, onBookAppointment }) {
+const PlaceholderInitials = ({ name }) => (
+  <div className="flex h-full w-full items-center justify-center bg-slate-200 text-4xl font-bold text-slate-500 dark:bg-slate-700 dark:text-slate-400">
+    {name?.charAt(0).toUpperCase()}
+  </div>
+);
+
+// The card now takes an `onViewProfile` function as a prop
+export default function DoctorCard({
+  doctor,
+  onBookAppointment,
+  onViewProfile,
+  fallbackType = "initials",
+}) {
+  let imageUrl = doctor.photo_url;
+  if (!imageUrl) {
+    imageUrl = fallbackType === "stock" ? getDoctorImage(doctor.id) : null;
+  }
+
   return (
     <motion.div
       variants={cardVariants}
       initial="hidden"
-      animate="visible"
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="flex flex-col overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
+      className="flex h-full flex-col overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
     >
-      <div className="relative h-48 w-full bg-gray-100 dark:bg-gray-700">
-        {doctor.photo_url ? (
+      <div className="relative h-48 w-full">
+        {imageUrl ? (
           <Image
-            src={doctor.photo_url}
+            src={imageUrl}
             alt={`Photo of ${doctor.name}`}
             fill={true}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover"
           />
         ) : (
-          <PlaceholderIcon />
+          <PlaceholderInitials name={doctor.name} />
         )}
       </div>
       <div className="flex flex-1 flex-col p-4">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
           {doctor.name}
         </h3>
-        <p className="text-sm text-blue-600 dark:text-sky-400">
+        <p className="text-sm text-sky-600 dark:text-sky-400">
           {doctor.specialization}
         </p>
-        <div className="mt-auto pt-4">
-          <Button onClick={onBookAppointment} className="w-full">
-            Book Appointment
+        <div className="mt-auto grid grid-cols-2 gap-2 pt-4">
+          {/* The Link is now a Button that triggers the modal */}
+          <Button
+            onClick={() => onViewProfile(doctor)}
+            variant="outline"
+            className="w-full"
+          >
+            View Profile
+          </Button>
+
+          <Button
+            onClick={() => onBookAppointment(doctor)}
+            className="w-full"
+            variant="default"
+          >
+            Book Now
           </Button>
         </div>
       </div>

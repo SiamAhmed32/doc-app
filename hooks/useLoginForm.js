@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -24,10 +25,13 @@ export function useLoginForm() {
   const router = useRouter();
   const dispatch = useDispatch();
 
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setValue,
   } = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -57,5 +61,6 @@ export function useLoginForm() {
     },
   });
 
-  return { register, handleSubmit, errors, isPending, mutate };
+
+  return { register, handleSubmit, errors, isPending, mutate, watch, setValue };
 }
