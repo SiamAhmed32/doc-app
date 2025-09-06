@@ -46,7 +46,7 @@ const testimonials = [
 
 export default function TestimonialsSection() {
   return (
-    <section className="bg-slate-50 py-16 dark:bg-slate-900 sm:py-24">
+    <section className="bg-slate-50 py-16 dark:bg-slate-900 sm:py-24 overflow-hidden">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -62,7 +62,7 @@ export default function TestimonialsSection() {
           </p>
         </motion.div>
 
-        <div className="mt-16 min-h-[480px] overflow-hidden">
+        <div className="mt-16">
           <Swiper
             effect={"coverflow"}
             grabCursor={true}
@@ -70,19 +70,30 @@ export default function TestimonialsSection() {
             slidesPerView={"auto"}
             loop={true}
             coverflowEffect={{
-              rotate: 50,
+              rotate: 0,
               stretch: 0,
               depth: 100,
-              modifier: 1,
-              slideShadows: true,
+              modifier: 2.5,
+              slideShadows: false,
             }}
             modules={[EffectCoverflow, Pagination, Autoplay]}
-            autoplay={{ delay: 4000, disableOnInteraction: false }}
-            pagination={{ clickable: true }}
-            className="!pb-12"
+            autoplay={{ delay: 5000, disableOnInteraction: false }}
+            pagination={{ clickable: true, el: ".swiper-pagination-custom" }}
+            breakpoints={{
+              768: {
+                slidesPerView: 2,
+              },
+              1024: {
+                slidesPerView: 3,
+              },
+            }}
+            className="!pb-16"
           >
             {testimonials.map((testimonial, index) => (
-              <SwiperSlide key={index} className="!w-auto max-w-lg">
+              <SwiperSlide
+                key={index}
+                className="!w-[80%] sm:!w-[60%] md:!w-[45%] lg:!w-[30%]"
+              >
                 <div className="flex h-full flex-col rounded-lg bg-white p-8 shadow-lg dark:bg-slate-800">
                   <p className="flex-grow text-slate-600 dark:text-slate-300">
                     &ldquo;{testimonial.quote}&rdquo;
@@ -108,15 +119,17 @@ export default function TestimonialsSection() {
               </SwiperSlide>
             ))}
           </Swiper>
+          <div className="swiper-pagination-custom text-center mt-4"></div>
         </div>
       </div>
 
       <style jsx global>{`
-        .swiper-pagination-bullet {
+        .swiper-pagination-custom .swiper-pagination-bullet {
           background-color: #cbd5e1;
           opacity: 1;
+          margin: 0 4px;
         }
-        .swiper-pagination-bullet-active {
+        .swiper-pagination-custom .swiper-pagination-bullet-active {
           background-color: #3b82f6;
         }
       `}</style>

@@ -27,9 +27,9 @@ export default function HeroSection() {
   };
 
   const getDashboardLink = () => {
-    if (role === "PATIENT") return "/patient/dashboard";
-    if (role === "DOCTOR") return "/doctor/dashboard";
-    return "/login";
+    if (role === 'PATIENT') return '/patient/dashboard';
+    if (role === 'DOCTOR') return '/doctor/dashboard';
+    return '/login';
   };
 
   return (
@@ -37,7 +37,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 z-0">
         <Image
           src="https://images.pexels.com/photos/3992933/pexels-photo-3992933.jpeg"
-          alt="A friendly doctor in a modern clinic"
+          alt="Healthcare background"
           fill
           priority
           sizes="100vw"
@@ -60,14 +60,14 @@ export default function HeroSection() {
         </motion.h1>
         <motion.p
           variants={itemVariants}
-          className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-200"
+          className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-200 sm:mt-6"
         >
           Welcome to the Doctor Appointment System. Find trusted specialists and
           manage your healthcare journey with confidence and ease.
         </motion.p>
         <motion.div
           variants={itemVariants}
-          className="mt-10 flex items-center justify-center gap-6"
+          className="mt-8 flex flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row sm:gap-6"
         >
           {user ? (
             <Link href={getDashboardLink()}>

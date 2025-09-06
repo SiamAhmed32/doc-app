@@ -1,3 +1,5 @@
+// File: components/ui/Button.jsx (Corrected and Final)
+
 "use client";
 
 import React from "react";
@@ -17,8 +19,10 @@ const buttonVariants = cva(
           "bg-sky-600 text-white hover:bg-sky-600/90 dark:bg-sky-500 dark:hover:bg-sky-500/90",
         destructive:
           "bg-red-500 text-slate-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-slate-50 dark:hover:bg-red-900/90",
+
+        // ===== THIS IS THE CORRECTED STYLE FOR THE OUTLINE BUTTON =====
         outline:
-          "border border-slate-200 bg-white hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50",
+          "border border-slate-200 bg-white hover:bg-slate-100 hover:text-slate-900 dark:border-slate-600 dark:bg-transparent dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-50",
 
         success:
           "bg-green-600 text-white hover:bg-green-600/90 dark:bg-green-500 dark:hover:bg-green-500/90",
