@@ -9,7 +9,12 @@ import ThemeToggleButton from "../ui/ThemeToggleButton";
 import Button from "../ui/Button";
 import { logOut } from "@/store/slices/authSlice";
 
-// Avatar circle with initial or user photo
+/**
+ * Set this to your AnnouncementBanner's height in px.
+ * Adjust as needed if you change the banner size.
+ */
+const BANNER_HEIGHT = 36;
+
 const UserAvatar = ({ user }) => (
   <div className="relative h-9 w-9">
     {user?.photo_url ? (
@@ -27,7 +32,7 @@ const UserAvatar = ({ user }) => (
   </div>
 );
 
-export default function Header() {
+export default function Header({ bannerVisible = true }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isProfileOpen, setProfileOpen] = useState(false);
@@ -46,7 +51,6 @@ export default function Header() {
     }
   }, [pathname]);
 
-  // Close mobile menu/profile on outside click
   useEffect(() => {
     const handler = (event) => {
       if (
@@ -72,9 +76,11 @@ export default function Header() {
       : []),
   ];
 
+  // Dynamic top offset if announcement banner is visible, only on homepage
+  const headerTop = bannerVisible && pathname === "/" ? BANNER_HEIGHT : 0;
   const headerClasses =
     pathname === "/"
-      ? `fixed top-0 left-0 w-full z-40 transition-all duration-300
+      ? `fixed left-0 w-full z-40 transition-all duration-300
         ${
           isScrolled
             ? "backdrop-blur bg-black/50 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 shadow"
@@ -84,7 +90,7 @@ export default function Header() {
 
   return (
     <>
-      <header className={headerClasses}>
+      <header className={headerClasses} style={{ top: headerTop }}>
         <nav className="container mx-auto flex h-16 items-center px-4">
           <Link
             href="/"
@@ -111,11 +117,7 @@ export default function Header() {
                 <Link href="/login">
                   <Button
                     variant={pathname === "/" ? "default" : "outline"}
-                    className={
-                      pathname === "/"
-                        ? "bg-sky-600 text-white"
-                        : ""
-                    }
+                    className={pathname === "/" ? "bg-sky-600 text-white" : ""}
                   >
                     Login
                   </Button>

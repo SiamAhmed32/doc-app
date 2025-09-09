@@ -5,31 +5,38 @@ import Link from "next/link";
 const FooterLink = ({ href, children }) => (
   <Link
     href={href}
-    className="text-slate-500 transition-colors hover:text-sky-500 dark:text-slate-400 dark:hover:text-sky-400"
+    className="text-slate-500 transition-colors hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400"
   >
     {children}
   </Link>
 );
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
-      <div className="container mx-auto px-4 py-10">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-          <div className="col-span-2 md:col-span-1">
+    <footer className="relative bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:to-slate-950 border-t border-slate-200 dark:border-slate-800 pt-12 pb-6">
+      <div className="container mx-auto px-4">
+        {/* Main Footer Content Grid */}
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4 lg:grid-cols-5">
+
+          {/* Brand and Description */}
+          <div className="col-span-2 lg:col-span-2">
             <Link
               href="/"
-              className="text-xl font-bold text-sky-700 dark:text-white"
+              className="text-3xl font-extrabold text-sky-700 dark:text-sky-300 tracking-tight block mb-3"
             >
               DocAppoint
             </Link>
-            <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
-              Trusted digital partner for fast healthcare bookings.
+            <p className="text-sm text-slate-600 dark:text-slate-400 max-w-sm">
+              Connecting patients with trusted doctors for seamless, modern healthcare bookings. Your health, simplified.
             </p>
           </div>
+
+          {/* For Patients */}
           <div className="text-sm">
-            <h3 className="font-semibold text-slate-900 dark:text-white">For Patients</h3>
-            <ul className="mt-4 space-y-2">
+            <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-4">For Patients</h3>
+            <ul className="space-y-3">
               <li>
                 <FooterLink href="/patient/dashboard">Find a Doctor</FooterLink>
               </li>
@@ -41,42 +48,49 @@ export default function Footer() {
               </li>
             </ul>
           </div>
+
+          {/* For Doctors */}
           <div className="text-sm">
-            <h3 className="font-semibold text-slate-900 dark:text-white">For Doctors</h3>
-            <ul className="mt-4 space-y-2">
+            <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-4">For Doctors</h3>
+            <ul className="space-y-3">
               <li>
                 <FooterLink href="/doctor/dashboard">Dashboard</FooterLink>
               </li>
               <li>
-                <FooterLink href="/register">Join Network</FooterLink>
+                <FooterLink href="/register">Join Our Network</FooterLink>
               </li>
               <li>
                 <FooterLink href="/login">Doctor Login</FooterLink>
               </li>
             </ul>
           </div>
+
+          {/* Company */}
           <div className="text-sm">
-            <h3 className="font-semibold text-slate-900 dark:text-white">Company</h3>
-            <ul className="mt-4 space-y-2">
+            <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-4">Company</h3>
+            <ul className="space-y-3">
               <li>
-                <FooterLink href="#">About Us</FooterLink>
+                <FooterLink href="/about">About Us</FooterLink>
               </li>
               <li>
-                <FooterLink href="#">Contact</FooterLink>
+                <FooterLink href="/contact">Contact</FooterLink>
               </li>
               <li>
-                <FooterLink href="#">Privacy Policy</FooterLink>
+                <FooterLink href="/privacy">Privacy Policy</FooterLink>
               </li>
               <li>
-                <FooterLink href="#">Terms of Service</FooterLink>
+                <FooterLink href="/terms">Terms of Service</FooterLink>
               </li>
             </ul>
           </div>
         </div>
-      </div>
-      <div className="border-t border-slate-200 bg-slate-100 py-3 dark:border-slate-800 dark:bg-slate-900">
-        <p className="text-center text-xs text-slate-500 dark:text-slate-400">
-          &copy; {new Date().getFullYear()} DocAppoint. All rights reserved.
+
+        {/* Separator */}
+        <div className="mt-12 mb-6 border-t border-slate-200 dark:border-slate-800" />
+
+        {/* Copyright */}
+        <p className="text-center text-sm text-slate-500 dark:text-slate-400">
+          &copy; {currentYear} DocAppoint. All rights reserved.
         </p>
       </div>
     </footer>

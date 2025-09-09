@@ -1,5 +1,4 @@
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import ClientAppShell from "@/components/layout/ClientAppShell";
 import Providers from "../components/Providers";
 import "./globals.css";
 
@@ -16,11 +15,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <Providers>
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
+          <ClientAppShell>{children}</ClientAppShell>
         </Providers>
       </body>
     </html>
