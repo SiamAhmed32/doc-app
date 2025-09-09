@@ -1,97 +1,105 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Button from "../ui/Button";
-import { useSelector } from "react-redux";
-import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
 import Image from "next/image";
+import Button from "../ui/Button";
+import Link from "next/link";
+
+// Only professional, healthcare-relevant images
+const slides = [
+  {
+    image: "https://images.pexels.com/photos/6749776/pexels-photo-6749776.jpeg",
+    headline: "Find Your Doctor, Instantly",
+    subhead:
+      "Connect with certified, trusted specialists and clinics in seconds.",
+    cta: { text: "Find Doctors", href: "/patient/dashboard" },
+  },
+  {
+    image: "https://images.pexels.com/photos/7578809/pexels-photo-7578809.jpeg",
+    headline: "Book Appointments 24/7",
+    subhead:
+      "No waiting on the line—choose your time, receive instant confirmation, and stay on schedule.",
+    cta: { text: "Book Now", href: "/register" },
+  },
+  {
+    image: "https://images.pexels.com/photos/5327653/pexels-photo-5327653.jpeg",
+    headline: "Everything In One Dashboard",
+    subhead:
+      "See all your visits, upcoming bookings, and doctor feedback in one secure place.",
+    cta: { text: "Go to Dashboard", href: "/patient/dashboard" },
+  },
+  {
+    image: "https://images.pexels.com/photos/5452293/pexels-photo-5452293.jpeg",
+    headline: "Secure. Private. Trusted.",
+    subhead:
+      "Your medical data always stays yours: encrypted, private, and protected.",
+    cta: { text: "Get Started", href: "/register" },
+  },
+];
 
 export default function HeroSection() {
-  const { user, role } = useSelector((state) => state.auth);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2, delayChildren: 0.3 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  };
-
-  const getDashboardLink = () => {
-    if (role === 'PATIENT') return '/patient/dashboard';
-    if (role === 'DOCTOR') return '/doctor/dashboard';
-    return '/login';
-  };
-
   return (
-    <section className="relative flex h-screen items-center justify-center overflow-hidden text-white">
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="https://images.pexels.com/photos/3992933/pexels-photo-3992933.jpeg"
-          alt="Healthcare background"
-          fill
-          priority
-          sizes="100vw"
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-transparent"></div>
-      </div>
-      <motion.div
-        className="relative z-10 w-full max-w-4xl px-4 text-center"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+    <div className="relative h-screen min-h-[500px] w-full overflow-hidden">
+      <Swiper
+        modules={[Autoplay, Pagination, EffectFade]}
+        effect="fade"
+        slidesPerView={1}
+        loop
+        autoplay={{ delay: 4200, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
+        className="h-full w-full"
       >
-        <motion.h1
-          variants={itemVariants}
-          className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl"
-        >
-          Dedicated Care,
-          <span className="block text-sky-400">Instantly Accessible.</span>
-        </motion.h1>
-        <motion.p
-          variants={itemVariants}
-          className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-200 sm:mt-6"
-        >
-          Welcome to the Doctor Appointment System. Find trusted specialists and
-          manage your healthcare journey with confidence and ease.
-        </motion.p>
-        <motion.div
-          variants={itemVariants}
-          className="mt-8 flex flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row sm:gap-6"
-        >
-          {user ? (
-            <Link href={getDashboardLink()}>
-              <Button size="lg" variant="default">
-                Go to Dashboard
-              </Button>
-            </Link>
-          ) : (
-            <>
-              <Link href="/register">
-                <Button size="lg" variant="default">
-                  Join Now
-                </Button>
-              </Link>
-              <Link
-                href="/login"
-                className="text-sm font-semibold leading-6 text-white transition-colors hover:text-sky-300"
-              >
-                Member Login <span aria-hidden="true">→</span>
-              </Link>
-            </>
-          )}
-        </motion.div>
-      </motion.div>
-    </section>
+        {slides.map((slide, idx) => (
+          <SwiperSlide key={slide.headline + idx}>
+            <div className="relative h-screen min-h-[500px] w-full">
+              <Image
+                src={slide.image}
+                alt={slide.headline}
+                fill
+                priority={idx === 0}
+                className="absolute inset-0 h-full w-full object-cover object-center"
+                sizes="100vw"
+                style={{ zIndex: 1 }}
+                quality={90}
+                unoptimized={slide.image.startsWith(
+                  "https://images.pexels.com/"
+                )}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent dark:from-slate-900/90 dark:via-sky-900/60 dark:to-transparent z-10 transition-colors" />
+              <div className="relative z-20 flex flex-col justify-center items-center text-center h-full px-4">
+                <h1 className="font-bold text-3xl sm:text-5xl md:text-6xl text-white mb-5 drop-shadow-lg">
+                  {slide.headline}
+                </h1>
+                <p className="text-lg max-w-xl text-white/80 mb-8">
+                  {slide.subhead}
+                </p>
+                <Link href={slide.cta.href}>
+                  <Button
+                    size="lg"
+                    variant="default"
+                    className="shadow-xl text-lg"
+                  >
+                    {slide.cta.text}
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      <style jsx global>{`
+        .swiper-pagination-bullet {
+          background: #cbd5e1;
+          opacity: 1;
+        }
+        .swiper-pagination-bullet-active {
+          background: #38bdf8;
+        }
+      `}</style>
+    </div>
   );
 }

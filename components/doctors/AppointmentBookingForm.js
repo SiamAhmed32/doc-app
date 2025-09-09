@@ -6,8 +6,7 @@ import { z } from "zod";
 import DatePicker from "react-datepicker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation"; // Import the router
-
+import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import { createAppointment } from "@/lib/api/appointments";
 
@@ -17,14 +16,12 @@ const appointmentSchema = z.object({
 
 export default function AppointmentBookingForm({ doctorId, onClose }) {
   const queryClient = useQueryClient();
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: zodResolver(appointmentSchema),
-  });
+  } = useForm({ resolver: zodResolver(appointmentSchema) });
 
   const { mutate, isPending } = useMutation({
     mutationFn: createAppointment,
@@ -32,7 +29,7 @@ export default function AppointmentBookingForm({ doctorId, onClose }) {
       toast.success("Appointment booked successfully!");
       queryClient.invalidateQueries({ queryKey: ["patient-appointments"] });
       onClose();
-      router.push("/patient/appointments"); // Redirect on success
+      router.push("/patient/appointments");
     },
     onError: (error) => {
       const message = error.response?.data?.message || "Booking failed.";
@@ -52,7 +49,7 @@ export default function AppointmentBookingForm({ doctorId, onClose }) {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col space-y-4">
         <div>
-          <label className="mb-2 block text-sm font-medium text-gray-700">
+          <label className="mb-2 block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-200">
             Select a Date
           </label>
           <Controller
@@ -63,7 +60,7 @@ export default function AppointmentBookingForm({ doctorId, onClose }) {
                 placeholderText="Click to select a date"
                 onChange={(date) => field.onChange(date)}
                 selected={field.value}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 minDate={new Date()}
                 popperClassName="!z-30"
                 popperPlacement="top-start"
@@ -74,15 +71,16 @@ export default function AppointmentBookingForm({ doctorId, onClose }) {
             <p className="mt-1 text-xs text-red-500">{errors.date.message}</p>
           )}
         </div>
-        <div className="flex justify-end space-x-2 pt-4">
+        <div className="flex justify-end space-x-2 pt-2">
           <Button
             type="button"
             onClick={onClose}
-            className="bg-gray-200 text-gray-800 hover:bg-gray-300"
+            variant="outline"
+            className="text-slate-800"
           >
             Cancel
           </Button>
-          <Button type="submit" disabled={isPending}>
+          <Button type="submit" isLoading={isPending}>
             {isPending ? "Booking..." : "Confirm Booking"}
           </Button>
         </div>

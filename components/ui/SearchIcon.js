@@ -1,3 +1,5 @@
+"use client";
+
 export default function SearchIcon({ className = "" }) {
   return (
     <svg
@@ -7,6 +9,7 @@ export default function SearchIcon({ className = "" }) {
       strokeWidth={1.5}
       stroke="currentColor"
       className={className}
+      aria-hidden="true"
     >
       <path
         strokeLinecap="round"

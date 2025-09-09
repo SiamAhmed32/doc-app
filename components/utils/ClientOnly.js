@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from "react";
 
+/**
+ * A wrapper component that ensures its children are only rendered on the client side,
+ * preventing hydration mismatch errors.
+ */
 export default function ClientOnly({ children }) {
   const [hasMounted, setHasMounted] = useState(false);
 
@@ -10,7 +14,7 @@ export default function ClientOnly({ children }) {
   }, []);
 
   if (!hasMounted) {
-    return null;
+    return null; // Render nothing on the server and during the initial client render
   }
 
   return <>{children}</>;

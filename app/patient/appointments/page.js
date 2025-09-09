@@ -16,15 +16,10 @@ import Pagination from "@/components/ui/Pagination";
 const statusFilters = ["All", "PENDING", "COMPLETED", "CANCELLED"];
 
 export default function MyAppointmentsPage() {
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const [appointmentToCancel, setAppointmentToCancel] = useState(null);
   const queryClient = useQueryClient();
-
-  const handleStatusChange = (newStatus) => {
-    setStatus(newStatus);
-    setCurrentPage(1);
-  };
 
   const { data, error, isLoading, isFetching } = usePatientAppointments({
     status: status === "All" ? "" : status,
@@ -35,6 +30,7 @@ export default function MyAppointmentsPage() {
   const totalRecords = data?.totalRecords || 0;
   const itemsPerPage = data?.limit || 6;
 
+  // This is the corrected part. We use the imported `updateAppointmentStatus`.
   const { mutate: cancelAppointment, isPending: isCancelling } = useMutation({
     mutationFn: updateAppointmentStatus,
     onSuccess: () => {
@@ -73,25 +69,28 @@ export default function MyAppointmentsPage() {
     );
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+    <div className="min-h-[calc(100vh-72px)] bg-slate-50 dark:bg-slate-900">
       <div className="bg-white dark:bg-slate-800">
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <div className="container mx-auto px-2 py-6 sm:px-4 sm:py-8">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
             My Appointments
           </h1>
-          <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
+          <p className="mt-1 sm:mt-2 text-base sm:text-lg text-gray-600 dark:text-gray-400">
             View and manage your scheduled appointments.
           </p>
         </div>
       </div>
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8 flex justify-center rounded-md border bg-white p-1 dark:bg-slate-800 dark:border-slate-700">
+      <main className="container mx-auto px-2 py-6 sm:px-4 sm:py-8">
+        <div className="mb-6 flex flex-wrap justify-center gap-3 rounded-md border bg-white p-1 dark:bg-slate-800 dark:border-slate-700">
           {statusFilters.map((filter) => (
             <button
               key={filter}
-              onClick={() => handleStatusChange(filter)}
+              onClick={() => {
+                setStatus(filter);
+                setCurrentPage(1);
+              }}
               className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
-                status === filter || (status === "" && filter === "All")
+                status === filter
                   ? "bg-sky-600 text-white shadow"
                   : "text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
               }`}
@@ -102,7 +101,7 @@ export default function MyAppointmentsPage() {
         </div>
 
         <div className="relative">
-          {isFetching && (
+          {isFetching && !isLoading && (
             <div className="absolute inset-0 z-20 flex items-center justify-center rounded-lg bg-white/60 backdrop-blur-sm dark:bg-slate-900/60">
               <div className="h-8 w-8 animate-spin rounded-full border-4 border-sky-500 border-t-transparent"></div>
             </div>
@@ -112,7 +111,7 @@ export default function MyAppointmentsPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+              className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3"
             >
               {appointments.map((appointment) => (
                 <AppointmentCard
@@ -123,7 +122,7 @@ export default function MyAppointmentsPage() {
               ))}
             </motion.div>
           ) : (
-            <div className="py-20 text-center text-gray-500">
+            <div className="py-16 text-center text-gray-500">
               <h3 className="text-2xl font-semibold">No Appointments</h3>
               <p className="mt-2">You have no appointments with this status.</p>
             </div>
@@ -144,7 +143,7 @@ export default function MyAppointmentsPage() {
         >
           <div className="flex flex-col space-y-4">
             <p className="dark:text-gray-300">
-              Are you sure you want to cancel your appointment with Dr.{" "}
+              Are you sure you want to cancel your appointment with Dr.&nbsp;
               {appointmentToCancel?.doctor.name}?
             </p>
             <div className="flex justify-end space-x-2">

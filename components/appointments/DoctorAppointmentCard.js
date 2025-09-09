@@ -32,6 +32,7 @@ export default function DoctorAppointmentCard({
     day: "numeric",
   });
 
+  // Distinct left color-bar for fast status scan
   const statusColors = {
     PENDING: "border-yellow-500",
     COMPLETED: "border-green-500",
@@ -40,33 +41,34 @@ export default function DoctorAppointmentCard({
 
   return (
     <div
-      className={`flex flex-col justify-between overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 hover:shadow-xl dark:border-slate-700 dark:bg-slate-800 border-l-4 ${
+      className={`flex flex-col justify-between overflow-hidden rounded-xl border bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-slate-700 dark:bg-slate-800 border-l-4 ${
         statusColors[status] || "border-slate-300"
       }`}
     >
       <div className="p-4">
         <div className="flex items-start justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
+            <h3 className="text-base sm:text-lg font-semibold text-slate-800 dark:text-white truncate max-w-[150px] sm:max-w-none">
               {patient.name}
             </h3>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 truncate max-w-[180px] sm:max-w-none">
               {patient.email}
             </p>
           </div>
           <StatusBadge status={status} />
         </div>
-        <div className="mt-4 flex items-center gap-2 border-t pt-4 text-sm font-medium text-slate-600 dark:border-slate-700 dark:text-slate-300">
-          <CalendarIcon className="h-5 w-5" />
+        <div className="mt-4 flex items-center gap-2 border-t pt-3 text-xs sm:text-sm font-medium text-slate-600 dark:border-slate-700 dark:text-slate-300">
+          <CalendarIcon className="h-4 w-4 sm:h-5 sm:w-5" />
           <span>{formattedDate}</span>
         </div>
       </div>
       {status === "PENDING" && (
-        <div className="grid grid-cols-2 gap-2 bg-slate-50 p-4 dark:bg-slate-800/50">
+        <div className="grid grid-cols-2 gap-2 bg-slate-50 p-3 dark:bg-slate-800/50">
           <Button
             onClick={() => onCancel(appointment)}
             variant="destructive"
             size="sm"
+            className="w-full"
           >
             Cancel
           </Button>
@@ -74,6 +76,7 @@ export default function DoctorAppointmentCard({
             onClick={() => onComplete(appointment)}
             variant="success"
             size="sm"
+            className="w-full"
           >
             Complete
           </Button>

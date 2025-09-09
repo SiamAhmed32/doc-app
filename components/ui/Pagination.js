@@ -5,23 +5,18 @@ import { useMemo } from "react";
 const DOTS = "...";
 
 /**
- * A custom hook to generate a pagination range with ellipses.
- * This is a complex but crucial piece of logic for professional pagination.
+ * Custom hook for smart pagination range.
  */
 const usePagination = ({ totalPages, currentPage, siblingCount = 1 }) => {
-  const paginationRange = useMemo(() => {
+  return useMemo(() => {
     const totalPageNumbers = siblingCount + 5;
-
     if (totalPageNumbers >= totalPages) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
-
     const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
     const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
-
     const shouldShowLeftDots = leftSiblingIndex > 2;
     const shouldShowRightDots = rightSiblingIndex < totalPages - 2;
-
     const firstPageIndex = 1;
     const lastPageIndex = totalPages;
 
@@ -48,8 +43,6 @@ const usePagination = ({ totalPages, currentPage, siblingCount = 1 }) => {
       return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
     }
   }, [totalPages, currentPage, siblingCount]);
-
-  return paginationRange;
 };
 
 export default function Pagination({
@@ -59,32 +52,21 @@ export default function Pagination({
   onPageChange,
 }) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  const paginationRange = usePagination({
-    totalPages,
-    currentPage,
-  });
+  const paginationRange = usePagination({ totalPages, currentPage });
 
   if (currentPage === 0 || paginationRange.length < 2) {
     return null;
   }
 
-  const onNext = () => {
-    onPageChange(currentPage + 1);
-  };
-
-  const onPrevious = () => {
-    onPageChange(currentPage - 1);
-  };
-
   return (
     <nav className="mt-8 flex justify-center">
-      <ul className="flex list-none items-center rounded-md border border-gray-300 dark:border-gray-700">
+      <ul className="flex list-none items-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
         <li>
           <button
-            onClick={onPrevious}
+            onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 text-blue-600 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-400 dark:text-blue-400 dark:hover:bg-gray-800 dark:disabled:text-gray-600"
+            className="px-4 py-2 text-blue-600 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-400 dark:text-sky-300 dark:hover:bg-gray-900"
+            aria-label="Previous"
           >
             Prev
           </button>
@@ -94,13 +76,12 @@ export default function Pagination({
             return (
               <li
                 key={DOTS + index}
-                className="border-x border-gray-300 px-4 py-2 text-gray-500 dark:border-gray-700"
+                className="border-x border-gray-300 px-4 py-2 text-gray-500 dark:border-gray-700 dark:text-slate-400"
               >
-                &#8230;
+                ...
               </li>
             );
           }
-
           return (
             <li
               key={pageNumber}
@@ -108,11 +89,12 @@ export default function Pagination({
             >
               <button
                 onClick={() => onPageChange(pageNumber)}
-                className={`px-4 py-2 transition-colors ${
+                className={`px-4 py-2 transition-colors rounded ${
                   currentPage === pageNumber
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-blue-600 hover:bg-gray-100 dark:bg-gray-900 dark:text-blue-400 dark:hover:bg-gray-800"
+                    ? "bg-sky-600 text-white"
+                    : "bg-white text-blue-600 hover:bg-gray-100 dark:bg-gray-900 dark:text-sky-300 dark:hover:bg-gray-800"
                 }`}
+                aria-current={currentPage === pageNumber ? "page" : undefined}
               >
                 {pageNumber}
               </button>
@@ -121,9 +103,10 @@ export default function Pagination({
         })}
         <li>
           <button
-            onClick={onNext}
+            onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 text-blue-600 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-400 dark:text-blue-400 dark:hover:bg-gray-800 dark:disabled:text-gray-600"
+            className="px-4 py-2 text-blue-600 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-400 dark:text-sky-300 dark:hover:bg-gray-900"
+            aria-label="Next"
           >
             Next
           </button>

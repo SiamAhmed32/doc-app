@@ -17,22 +17,18 @@ import Pagination from "@/components/ui/Pagination";
 const statusFilters = ["All", "PENDING", "COMPLETED", "CANCELLED"];
 
 export default function DoctorDashboardPage() {
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("All");
   const [date, setDate] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [appointmentToUpdate, setAppointmentToUpdate] = useState(null);
   const [updateAction, setUpdateAction] = useState("");
   const queryClient = useQueryClient();
 
-  const handleFilterChange = (setter, value) => {
-    setter(value);
-    setCurrentPage(1);
-  };
-
+  // Always supply status, page, date
   const { data, error, isLoading, isFetching } = useDoctorAppointments({
     status: status === "All" ? "" : status,
-    date,
     page: currentPage,
+    date,
   });
 
   const appointments = data?.data || [];
@@ -69,7 +65,7 @@ export default function DoctorDashboardPage() {
 
   if (isLoading)
     return (
-      <div className="flex h-[calc(100vh-72px)] items-center justify-center dark:bg-gray-900">
+      <div className="flex h-[calc(100vh-72px)] items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-sky-500 border-t-transparent"></div>
       </div>
     );
@@ -81,21 +77,25 @@ export default function DoctorDashboardPage() {
 
   return (
     <div className="min-h-[calc(100vh-72px)] bg-gray-50 dark:bg-gray-900">
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+      <main className="container mx-auto px-2 py-4 sm:px-4 sm:py-8">
+        <div className="mb-6 text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
             Appointment Dashboard
           </h1>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+          <p className="mt-2 text-base sm:text-lg text-gray-600 dark:text-gray-400">
             Manage your patient appointments.
           </p>
         </div>
-        <div className="sticky top-[72px] z-10 mb-8 flex flex-col space-y-4 rounded-lg bg-white/70 p-4 shadow-md backdrop-blur-sm dark:bg-gray-800/70 md:flex-row md:space-x-4 md:space-y-0">
+
+        <div className="sticky top-[72px] z-10 mb-6 flex flex-col gap-4 rounded-lg bg-white/70 p-3 shadow-md backdrop-blur-sm dark:bg-gray-800/70 md:flex-row md:gap-0">
           <div className="relative flex-1">
             <DatePicker
               placeholderText="Filter by date..."
               selected={date}
-              onChange={(d) => handleFilterChange(setDate, d)}
+              onChange={(d) => {
+                setDate(d);
+                setCurrentPage(1);
+              }}
               isClearable
               className="block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             />
@@ -104,9 +104,12 @@ export default function DoctorDashboardPage() {
             {statusFilters.map((filter) => (
               <button
                 key={filter}
-                onClick={() => handleFilterChange(setStatus, filter)}
+                onClick={() => {
+                  setStatus(filter);
+                  setCurrentPage(1);
+                }}
                 className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                  status === filter || (status === "" && filter === "All")
+                  status === filter
                     ? "bg-sky-600 text-white shadow"
                     : "text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
                 }`}
@@ -129,7 +132,7 @@ export default function DoctorDashboardPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
             >
               {appointments.map((appointment) => (
                 <DoctorAppointmentCard
@@ -141,7 +144,7 @@ export default function DoctorDashboardPage() {
               ))}
             </motion.div>
           ) : (
-            <div className="py-20 text-center text-gray-500">
+            <div className="py-16 sm:py-20 text-center text-gray-500">
               <h3 className="text-2xl font-semibold">No Appointments Found</h3>
               <p className="mt-2">No appointments match the current filters.</p>
             </div>
@@ -176,7 +179,7 @@ export default function DoctorDashboardPage() {
               <Button
                 onClick={handleConfirmUpdate}
                 variant={
-                  updateAction === "CANCELLED" ? "destructive" : "default"
+                  updateAction === "CANCELLED" ? "destructive" : "success"
                 }
                 isLoading={isUpdating}
               >

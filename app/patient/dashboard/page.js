@@ -54,29 +54,31 @@ export default function PatientDashboard() {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900">
-      <main className="container mx-auto min-h-screen p-4 py-8 pt-24">
-        <h1 className="mb-6 text-3xl font-bold dark:text-white">
-          Find Your Doctor
+    <div className="bg-white dark:bg-slate-900 min-h-[calc(100vh-72px)]">
+      <main className="container mx-auto min-h-screen px-2 py-4 pt-20 sm:px-4 sm:py-8 sm:pt-24">
+        <h1 className="mb-4 text-2xl sm:text-3xl font-bold dark:text-white text-gray-900">
+          Book an Appointment
         </h1>
-        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="mb-6 grid grid-cols-1 gap-3 sm:gap-4 sm:grid-cols-2">
           <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               <SearchIcon className="h-5 w-5 text-gray-400" />
-            </div>
+            </span>
             <input
               type="text"
-              placeholder="Search by doctor name..."
-              className="block w-full rounded-md border-gray-300 pl-10 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
+              placeholder="Search by doctor name…"
+              className="block w-full rounded-md border-gray-300 pl-10 shadow-sm focus:border-sky-500 focus:ring-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
               value={searchTerm}
               onChange={handleSearchChange}
+              aria-label="Search by doctor name"
             />
           </div>
           <select
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
             value={selectedSpecialization}
             onChange={handleSpecializationChange}
             disabled={isLoadingSpecializations}
+            aria-label="Filter by specialization"
           >
             <option value="">All Specializations</option>
             {specializations?.map((spec) => (
@@ -89,7 +91,7 @@ export default function PatientDashboard() {
 
         <div className="relative">
           {isLoading ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {Array.from({ length: 8 }).map((_, index) => (
                 <DoctorCardSkeleton key={index} />
               ))}
@@ -100,7 +102,7 @@ export default function PatientDashboard() {
             </div>
           ) : doctors.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {doctors.map((doctor) => (
                   <DoctorCard
                     key={doctor.id}
@@ -129,10 +131,15 @@ export default function PatientDashboard() {
         </div>
       </main>
 
+      {/* Book appointment modal */}
       <Modal
         isOpen={!!doctorForBooking}
         onClose={() => setDoctorForBooking(null)}
-        title={`Book Appointment with ${doctorForBooking?.name}`}
+        title={
+          doctorForBooking
+            ? `Book Appointment with ${doctorForBooking.name}`
+            : ""
+        }
       >
         {doctorForBooking && (
           <AppointmentBookingForm
@@ -142,6 +149,7 @@ export default function PatientDashboard() {
         )}
       </Modal>
 
+      {/* Doctor profile modal */}
       <DoctorProfileModal
         doctor={doctorForProfile}
         onClose={() => setDoctorForProfile(null)}
