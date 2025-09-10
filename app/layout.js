@@ -1,4 +1,5 @@
-import ClientAppShell from "@/components/layout/ClientAppShell";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import Providers from "../components/Providers";
 import "./globals.css";
 
@@ -15,7 +16,9 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <Providers>
-          <ClientAppShell>{children}</ClientAppShell>
+          <Header />
+          <main>{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>

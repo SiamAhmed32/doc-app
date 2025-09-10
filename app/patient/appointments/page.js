@@ -12,6 +12,7 @@ import AppointmentCard from "@/components/appointments/AppointmentCard";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import Pagination from "@/components/ui/Pagination";
+import FullPageLoader from "@/components/ui/FullPageLoader";
 
 const statusFilters = ["All", "PENDING", "COMPLETED", "CANCELLED"];
 
@@ -56,12 +57,9 @@ export default function MyAppointmentsPage() {
     }
   };
 
-  if (isLoading)
-    return (
-      <div className="flex h-[calc(100vh-72px)] items-center justify-center bg-slate-50 dark:bg-slate-900">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-sky-500 border-t-transparent"></div>
-      </div>
-    );
+  if (isLoading) {
+    return <FullPageLoader />;
+  }
 
   if (error)
     return (

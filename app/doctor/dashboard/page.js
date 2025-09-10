@@ -24,7 +24,6 @@ export default function DoctorDashboardPage() {
   const [updateAction, setUpdateAction] = useState("");
   const queryClient = useQueryClient();
 
-  // Always supply status, page, date
   const { data, error, isLoading, isFetching } = useDoctorAppointments({
     status: status === "All" ? "" : status,
     page: currentPage,

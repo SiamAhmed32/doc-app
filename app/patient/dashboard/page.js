@@ -12,6 +12,7 @@ import SearchIcon from "@/components/ui/SearchIcon";
 import Modal from "@/components/ui/Modal";
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "@/lib/axios";
+import FullPageLoader from "@/components/ui/FullPageLoader";
 
 const fetchSpecializations = async () => {
   const response = await apiClient.get("/specializations");
@@ -52,6 +53,9 @@ export default function PatientDashboard() {
     setSelectedSpecialization(e.target.value);
     setCurrentPage(1);
   };
+  if (isLoading) {
+    return <FullPageLoader />;
+  }
 
   return (
     <div className="bg-white dark:bg-slate-900 min-h-[calc(100vh-72px)]">

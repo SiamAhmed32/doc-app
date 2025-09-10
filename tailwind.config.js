@@ -8,10 +8,24 @@ module.exports = {
   ],
   theme: {
     extend: {
+      
+      keyframes: {
+        worm: {
+          "0%": {
+            "background-position": "left",
+          },
+          "100%": {
+            "background-position": "right",
+          },
+        },
+      },
+      animation: {
+        worm: "worm 1.5s ease-in-out infinite alternate",
+      },
+      
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
   },

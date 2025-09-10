@@ -1,7 +1,6 @@
 "use client";
 
 import HeroSection from "@/components/homepage/HeroSection";
-import AnnouncementBanner from "@/components/homepage/AnnouncementBanner";
 import FeaturesGridSection from "@/components/homepage/FeaturesGridSection";
 import HowItWorksSection from "@/components/homepage/HowItWorksSection";
 import WhyChooseUsSection from "@/components/homepage/WhyChooseUsSection";
@@ -13,7 +12,6 @@ import TeamSection from "@/components/homepage/TeamSection";
 export default function HomePage() {
   return (
     <>
-      <AnnouncementBanner />
       <HeroSection />
       <FeaturesGridSection />
       <HowItWorksSection />
