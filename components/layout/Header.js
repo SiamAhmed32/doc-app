@@ -78,7 +78,7 @@ export default function Header() {
     pathname === "/"
       ? `fixed top-0 left-0 w-full z-40 transition-all duration-300
         ${
-          isScrolled ? "backdrop-blur bg-black/50" : "backdrop-blur bg-black/20" 
+          isScrolled ? "backdrop-blur bg-black/50" : "backdrop-blur bg-black/20"
         }`
       : "sticky top-0 w-full z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 shadow-sm";
 
@@ -114,10 +114,12 @@ export default function Header() {
         <nav className="container mx-auto flex h-16 items-center px-4">
           <Link
             href="/"
-            className="font-bold text-xl text-sky-400 dark:text-sky-300 tracking-tight"
+            className="font-bold text-xl text-white dark:text-sky-300 tracking-tight"
           >
             DocAppoint
           </Link>
+
+          {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-x-2 ml-auto">
             <ClientOnly>
               {user &&
@@ -125,7 +127,7 @@ export default function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="px-3 py-2 text-sm font-medium text-sky-300 hover:text-sky-200 transition-colors"
+                    className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -182,12 +184,14 @@ export default function Header() {
             </ClientOnly>
             <ThemeToggleButton />
           </div>
-          <div className="flex md:hidden ml-auto">
+
+          {/* Mobile hamburger - SINGLE CORRECTED BLOCK */}
+          <div className="flex items-center justify-center md:hidden ml-auto h-10 w-10">
             <ClientOnly>
               {user ? (
                 <button
                   onClick={() => setMobileMenuOpen(true)}
-                  className="p-2"
+                  className="p-1"
                   aria-label="Open menu"
                 >
                   <UserAvatar user={user} />
@@ -195,7 +199,7 @@ export default function Header() {
               ) : (
                 <button
                   onClick={() => setMobileMenuOpen(true)}
-                  className="p-2 text-white"
+                  className="p-1 text-white"
                   aria-label="Open menu"
                 >
                   <svg
@@ -206,7 +210,11 @@ export default function Header() {
                     strokeWidth={2}
                     viewBox="0 0 24 24"
                   >
-                    <path d="M4 6h16M4 12h16M4 18h16" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
                   </svg>
                 </button>
               )}
@@ -215,13 +223,14 @@ export default function Header() {
         </nav>
       </header>
 
+      {/* Mobile Menu Panel */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-slate-200/50 dark:bg-black/70 backdrop-blur-sm"
             onClick={() => setMobileMenuOpen(false)}
           >
             <motion.nav
@@ -233,11 +242,13 @@ export default function Header() {
               className="fixed top-0 right-0 h-full w-full max-w-xs bg-white dark:bg-slate-900 shadow-lg flex flex-col"
             >
               <div className="flex items-center justify-between p-4 border-b">
-                <span className="font-bold text-lg text-black-700 dark:text-white-400">Menu</span>
+                <span className="font-bold text-lg text-sky-700 dark:text-sky-400">
+                  Menu
+                </span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   aria-label="Close menu"
-                  className="font-bold text-lg text-sky-700 dark:text-sky-400"
+                  className="p-1"
                 >
                   <X />
                 </button>
