@@ -233,10 +233,11 @@ export default function Header() {
               className="fixed top-0 right-0 h-full w-full max-w-xs bg-white dark:bg-slate-900 shadow-lg flex flex-col"
             >
               <div className="flex items-center justify-between p-4 border-b">
-                <span className="font-bold text-lg text-sky-700 dark:text-sky-400">Menu</span>
+                <span className="font-bold text-lg text-black-700 dark:text-white-400">Menu</span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   aria-label="Close menu"
+                  className="font-bold text-lg text-sky-700 dark:text-sky-400"
                 >
                   <X />
                 </button>
