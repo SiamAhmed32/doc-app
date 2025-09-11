@@ -63,7 +63,7 @@ const Feature = ({ feature }) => {
 
 export default function WhyChooseUsSection() {
   return (
-    <section className="py-14 sm:py-20 bg-white dark:bg-slate-900">
+    <section className="py-14 sm:py-20 bg-white dark:bg-slate-900 overflow-x-hidden">
       <div className="container mx-auto space-y-16 sm:space-y-24 px-4">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
