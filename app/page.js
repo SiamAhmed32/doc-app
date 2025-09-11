@@ -8,6 +8,7 @@ import TestimonialsSection from "@/components/homepage/TestimonialsSection";
 import StatsSection from "@/components/homepage/StatsSection";
 import CallToActionBanner from "@/components/homepage/CallToActionBanner";
 import TeamSection from "@/components/homepage/TeamSection";
+import FeaturedDoctorsSection from "@/components/homepage/FeaturedDoctorsSection";
 
 export default function HomePage() {
   return (
@@ -16,6 +17,7 @@ export default function HomePage() {
       <FeaturesGridSection />
       <HowItWorksSection />
       <WhyChooseUsSection />
+      <FeaturedDoctorsSection />
       <TestimonialsSection />
       <StatsSection />
       <CallToActionBanner />

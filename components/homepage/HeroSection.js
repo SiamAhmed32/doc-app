@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import "swiper/css";
@@ -8,8 +9,8 @@ import "swiper/css/effect-fade";
 import Image from "next/image";
 import Button from "../ui/Button";
 import Link from "next/link";
+import HeroSkeleton from "./HeroSkeleton";
 
-// Only professional, healthcare-relevant images
 const slides = [
   {
     image: "https://images.pexels.com/photos/6749776/pexels-photo-6749776.jpeg",
@@ -42,6 +43,16 @@ const slides = [
 ];
 
 export default function HeroSection() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return <HeroSkeleton />;
+  }
+
   return (
     <div className="relative h-screen min-h-[500px] w-full overflow-hidden">
       <Swiper
